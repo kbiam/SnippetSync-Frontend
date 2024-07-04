@@ -19,7 +19,7 @@ function SnippetCard({ snippet, onDelete }) {
 
   
   const deleteSnippet = async ()=>{
-    const response = await fetch("http://localhost:3000/deleteSnippet",{
+    const response = await fetch("https://snippetsync-backend.onrender.com/deleteSnippet",{
       method:"POST",
       mode:"cors",
       headers: {
@@ -41,7 +41,7 @@ function SnippetCard({ snippet, onDelete }) {
 
   const handleSavebutton = async ()=>{
     if(code !== initialCode){
-    const response = await fetch("http://localhost:3000/updateSnippet",{
+    const response = await fetch("https://snippetsync-backend.onrender.com/updateSnippet",{
       method:"POST",
       mode:"cors",
       headers:{

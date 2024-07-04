@@ -23,7 +23,7 @@ function NewSnippet({onClose}) {
     const navigate = useNavigate()
     const onSubmit = async (data) => {
       console.log(data, code);
-      const response = await fetch("http://localhost:3000/addSnippet", {
+      const response = await fetch("https://snippetsync-backend.onrender.com/addSnippet", {
         method: "POST",
         mode: "cors",
         credentials: "include",

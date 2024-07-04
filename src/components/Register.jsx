@@ -27,7 +27,7 @@ function Register({authStateSignUp}) {
             
         console.log(data)
         setLoading(true)
-        const response = await fetch("http://localhost:3000/register",{
+        const response = await fetch("https://snippetsync-backend.onrender.com/register",{
           method:'POST',
           mode:'cors',
           headers: {

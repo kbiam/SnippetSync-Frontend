@@ -117,7 +117,7 @@ function AuthChecker({ children }) {
       if (token) {
         setLoading(true)
         try {
-          const response = await fetch('http://localhost:3000/checkState', {
+          const response = await fetch('https://snippetsync-backend.onrender.com/checkState', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

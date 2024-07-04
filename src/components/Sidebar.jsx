@@ -8,7 +8,7 @@ function Sidebar({ logout, handleSnippetLanguageFetch, allSnippets, snippetAdded
 
   useEffect(() => {
     const fetchLanguages = async () => {
-      const response = await fetch('http://localhost:3000/userLanguages', {
+      const response = await fetch('https://snippetsync-backend.onrender.com/userLanguages', {
         method: "GET",
         credentials: "include"
       });
