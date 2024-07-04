@@ -18,6 +18,7 @@ function Login() {
     const [isLoading, setLoading] = useState(false)
 
     const handlelogin =async (data)=>{
+      console.log("clicked")
       // setLoading(true)
         const response = await fetch('https://snippetsync-backend.onrender.com/login',{
           method:'POST',
