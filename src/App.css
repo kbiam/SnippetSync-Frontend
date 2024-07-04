@@ -1,0 +1,97 @@
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+    font-family: "Poppins";
+    /* background-color: #F9FAFB; */
+    background: linear-gradient(to right, #141e30, #243b55); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #282c34;
+    color: white;
+  }
+  
+  .search-bar {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .new-snippet-button {
+    padding: 10px 20px;
+    background-color: #61dafb;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .snippet-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .snippet-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 30%;
+  }
+  
+  .snippet-card h2 {
+    margin-top: 0;
+  }
+  
+  .language-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .footer {
+    padding: 20px;
+    background-color: #282c34;
+    color: white;
+    text-align: center;
+  }
+  #code-editor *:focus {
+    border: none !important;
+    outline: none !important;
+  }
+
+  /* Hide the scrollbar */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Style the scrollbar */
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+  height: 8px; /* Height of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1F2937; /* Color of the thumb */
+  border-radius: 5px; /* Roundness of the thumb */
+  border: 3px solid transparent; /* Padding around the thumb */
+  background-clip: content-box; /* Clip background to the content box */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #333A4C; /* Color of the thumb when hovered */
+}
+
+::-webkit-scrollbar-track {
+  background: #3a3d46; /* Color of the track */
+  border-radius: 5px; /* Roundness of the track */
+}
+

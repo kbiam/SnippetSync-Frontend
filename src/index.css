@@ -1,0 +1,17 @@
+/* Tailwind base styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+.snippet-list {
+  @apply flex flex-col items-center bg-gray-50 min-h-screen py-8;
+}
+
+.snippet-card {
+  @apply bg-white shadow-md rounded-lg p-6 border border-gray-200;
+}
+
+.language-tag {
+  @apply text-xs font-medium text-gray-500;
+}
