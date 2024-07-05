@@ -11,13 +11,13 @@ import {
 import { Button } from './ui/button';
 
 function Otp() {
-  const cookies = new Cookies(null, { path: '/' });
+  const cookies = new Cookies();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false); // Added loading state
   const token = cookies.get('token')
-  
+
   const handleOtp = async (data) => {
     try {
       setLoading(true); // Set loading state on form submission
@@ -38,8 +38,13 @@ function Otp() {
         console.log('Verified token:', verifiedToken);
         if (verifiedToken && verifiedToken.token) {
           cookies.remove('token');
-          cookies.set('token', verifiedToken.token, { path: '/', sameSite:'none' });
-          navigate('/snippets');
+          await cookies.set('token', verifiedToken.token, { path: '/'});
+          if(cookies.get('token')){
+            navigate('/snippets');
+          }
+          else{
+            console.log("no token avail")
+          }
         } else {
           setError("Invalid response from server");
         }
