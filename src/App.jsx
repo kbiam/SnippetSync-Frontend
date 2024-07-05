@@ -113,15 +113,18 @@ function AuthChecker({ children }) {
   useEffect(() => {
     const checkAuthState = async () => {
       const token = cookies.get('token');
+      console.log("token",token)
       if (token) {
         setLoading(true);
         try {
+          console.log("sending req")
           const response = await fetch('https://snippetsync-backend.onrender.com/checkState', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            credentials: 'include',
+            credentials:"include"
+            
           });
           if (response.status === 401) {
             cookies.remove('token');
