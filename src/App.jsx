@@ -91,31 +91,30 @@ function AuthChecker({ children }) {
   });
   const [isLoading, setLoading] = useState(true);
 
-  const authStateSignUp = ()=>{
+  const authStateSignUp = () => {
     setAuthState({
-      isAuthenticated:true,
-      isVerified:false
-    })
-  }
-  const logout = ()=>{
-    setLoading(true)
+      isAuthenticated: true,
+      isVerified: false
+    });
+  };
+
+  const logout = () => {
+    setLoading(true);
     cookies.remove('token');
     setAuthState({
       isAuthenticated: false,
       isVerified: false,
-    })
-    setTimeout(()=>{
-      setLoading(false)
+    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  };
 
-    },500)
-  }
   useEffect(() => {
     const checkAuthState = async () => {
-
       const token = cookies.get('token');
-      console.log(token)
       if (token) {
-        setLoading(true)
+        setLoading(true);
         try {
           const response = await fetch('https://snippetsync-backend.onrender.com/checkState', {
             method: 'POST',
@@ -124,8 +123,8 @@ function AuthChecker({ children }) {
             },
             credentials: 'include',
           });
-          if(response.status === 401){
-            cookies.remove("token")
+          if (response.status === 401) {
+            cookies.remove('token');
           }
           if (response.ok) {
             const data = await response.json();
@@ -140,15 +139,16 @@ function AuthChecker({ children }) {
           console.error('Token verification failed', err);
           setAuthState({ isAuthenticated: false, isVerified: false });
         }
+        setLoading(false);
       } else {
         setAuthState({ isAuthenticated: false, isVerified: false });
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     checkAuthState(); // Invoke the async function
-
   }, [location]); // Include location in the dependency array
+ // Include location in the dependency array
 
   return (
     <>
