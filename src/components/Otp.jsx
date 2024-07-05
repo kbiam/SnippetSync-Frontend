@@ -35,7 +35,7 @@ function Otp() {
         console.log('Verified token:', verifiedToken);
         if (verifiedToken && verifiedToken.token) {
           cookies.remove('token');
-          cookies.set('token', verifiedToken.token, { path: '/' });
+          cookies.set('token', verifiedToken.token, { path: '/', sameSite:'none' });
           navigate('/snippets');
         } else {
           setError("Invalid response from server");
