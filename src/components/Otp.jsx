@@ -16,7 +16,8 @@ function Otp() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false); // Added loading state
-
+  const token = cookies.get('token')
+  
   const handleOtp = async (data) => {
     try {
       setLoading(true); // Set loading state on form submission
@@ -24,7 +25,9 @@ function Otp() {
         method: "POST",
         mode: "cors",
         headers: {
-          "Content-Type": 'application/json'
+          "Content-Type": 'application/json',
+          'Authorization': `Bearer ${token}`
+
         },
         credentials: "include",
         body: JSON.stringify({ otp: data.otp })

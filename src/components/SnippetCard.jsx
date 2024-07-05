@@ -9,6 +9,7 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism-tomorrow.min.css';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'universal-cookie';
 
 
 function SnippetCard({ snippet, onDelete }) {
@@ -16,14 +17,17 @@ function SnippetCard({ snippet, onDelete }) {
   const [code,setCode] = useState(snippet.snippet)
   const [isEditable, setIsEditable] = useState(false)
   const [initialCode, setInitialCode] = useState(snippet.snippet);
-
+  const cookies = new Cookies()
+  const token = cookies.get('token')
   
   const deleteSnippet = async ()=>{
     const response = await fetch("https://snippetsync-backend.onrender.com/deleteSnippet",{
       method:"POST",
       mode:"cors",
       headers: {
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        'Authorization': `Bearer ${token}`
+
       },
       credentials:"include",
       body:JSON.stringify({
@@ -45,7 +49,9 @@ function SnippetCard({ snippet, onDelete }) {
       method:"POST",
       mode:"cors",
       headers:{
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        'Authorization': `Bearer ${token}`
+
       },
       credentials:"include",
       body:JSON.stringify({

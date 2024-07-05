@@ -11,6 +11,7 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism-tomorrow.min.css'; //Example style, you can use another
+import Cookies from 'universal-cookie'
 
 
 function NewSnippet({onClose}) {
@@ -21,6 +22,8 @@ function NewSnippet({onClose}) {
     // const [code, setcode] = useState("")
     const { register, handleSubmit, formState: { errors } } = useForm()
     const navigate = useNavigate()
+    const cookies = new Cookies()
+    const token = cookies.get('token')
     const onSubmit = async (data) => {
       console.log(data, code);
       const response = await fetch("https://snippetsync-backend.onrender.com/addSnippet", {
@@ -28,7 +31,9 @@ function NewSnippet({onClose}) {
         mode: "cors",
         credentials: "include",
         headers: {
-          "Content-type": "application/json"
+          "Content-type": "application/json",
+          'Authorization': `Bearer ${token}`
+
         },
         body: JSON.stringify({
           title: data.title,

@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
+import Cookies from 'universal-cookie';
 
 function Sidebar({ logout, handleSnippetLanguageFetch, allSnippets, snippetAdded, snippets }) {
   const [languages, setLanguages] = useState([]);
   const [activeLanguage, setActiveLanguage] = useState('all');
-
+  const cookies = new Cookies()
+  const token = cookies.get('token')
   useEffect(() => {
     const fetchLanguages = async () => {
       const response = await fetch('https://snippetsync-backend.onrender.com/userLanguages', {
         method: "GET",
-        credentials: "include"
+        credentials: "include",
+        headers:{
+          'Authorization': `Bearer ${token}`
+        }
       });
       const languages = await response.json();
       console.log(languages);

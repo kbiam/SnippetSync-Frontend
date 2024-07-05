@@ -16,6 +16,7 @@ function Login() {
     const {register, handleSubmit, formState:{errors}} = useForm()
     const [error, setError] = useState(null)
     const [isLoading, setLoading] = useState(false)
+    const token = cookies.get('token')
 
     const handlelogin =async (data)=>{
       console.log("clicked")
@@ -24,7 +25,9 @@ function Login() {
           method:'POST',
           mode:'cors',
           headers:{
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'Authorization': `Bearer ${token}`
+
           },
           body:JSON.stringify({
             email: data.email,

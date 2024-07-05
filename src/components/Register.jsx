@@ -22,7 +22,7 @@ function Register({authStateSignUp}) {
     const {register, handleSubmit, formState:{errors}} = useForm()
     const [error, setError] = useState(null)
     const [isLoading, setLoading] = useState(false)
-
+    const token = cookies.get('token')
     const handleRegistration =async (data)=>{
             
         console.log(data)
@@ -31,7 +31,9 @@ function Register({authStateSignUp}) {
           method:'POST',
           mode:'cors',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+
         },
           body:JSON.stringify({
             username: data.username,

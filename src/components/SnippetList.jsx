@@ -10,12 +10,14 @@ import { useEffect } from 'react';
 import ModalContext from './context/ModalContext';
 import { helix } from 'ldrs'
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'universal-cookie';
 
 helix.register()
 function SnippetList({logout}) {
 
   const [isLoading, setLoading] = useState(true);
-
+  const cookies = new Cookies()
+  const token = cookies.get('token')
   const [snippets, setsnippets] = useState([])
   const [snippetCopy, setSnippetCopy] = useState([])
   const [snippetAdded, setSnippetAdded] = useState(false);
@@ -45,7 +47,8 @@ function SnippetList({logout}) {
         method:"POST",
         credentials:"include",
         headers:{
-          "Content-Type" : "application/json"
+          "Content-Type" : "application/json",
+          'Authorization': `Bearer ${token}`
         }
       });
       const snippets = await response.json()
