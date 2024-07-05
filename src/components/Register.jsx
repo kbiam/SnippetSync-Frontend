@@ -43,7 +43,7 @@ function Register({authStateSignUp}) {
         })
         if(response.ok){
           const user = await response.json()
-          console.log(user.data.token)
+          console.log("topken recieived",user.data.token)
           await cookies.set('token',user.data.token,{path:'/', sameSite:"none"});
           console.log("cookie set")
           console.log(cookies.get('token'))
