@@ -44,13 +44,16 @@ function Register({authStateSignUp}) {
         if(response.ok){
           const user = await response.json()
           console.log("topken recieived",user.data.token)
-          await cookies.set('token',user.data.token,{path:'/', sameSite:"none"});
-          console.log("cookie set")
-          console.log(cookies.get('token'))
-          authStateSignUp();
-          setLoading(false)
-          console.log("naviagting to otp")
-          navigate('/verify-otp')
+          cookies.set('token',user.data.token,{path:'/', sameSite:"none"});
+          if(cookies.get("token")){
+            console.log("cookie set")
+            console.log(cookies.get('token'))
+            authStateSignUp();
+            setLoading(false)
+            console.log("naviagting to otp")
+            navigate('/verify-otp')
+          }
+
         }
         else{
           console.log("Registration failed")
