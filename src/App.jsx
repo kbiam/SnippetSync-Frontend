@@ -94,7 +94,7 @@ function AuthChecker({ children }) {
   const authStateSignUp = ()=>{
     setAuthState({
       isAuthenticated:true,
-      isVerifiedL:true
+      isVerified:false
     })
   }
   const logout = ()=>{

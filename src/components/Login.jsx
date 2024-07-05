@@ -118,7 +118,7 @@ function Login() {
                   message: "Password must be at least 4 characters long"
                 },
                 maxLength: {
-                  value: 8,
+                  value: 16,
                   message: "Password cannot exceed 8 characters"
                 }
               })}

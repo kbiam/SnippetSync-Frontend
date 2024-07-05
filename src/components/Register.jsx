@@ -47,6 +47,7 @@ function Register({authStateSignUp}) {
           console.log(cookies.get('token'))
           authStateSignUp();
           setLoading(false)
+          console.log("naviagting to otp")
           navigate('/verify-otp')
         }
         else{
