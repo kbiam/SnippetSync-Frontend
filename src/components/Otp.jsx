@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -9,6 +9,9 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Button } from './ui/button';
+import { helix } from 'ldrs';
+
+helix.register()
 
 function Otp() {
   const cookies = new Cookies();
@@ -66,7 +69,8 @@ function Otp() {
         method: "POST",
         mode: "cors",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
         },
         credentials: "include"
       });
@@ -87,6 +91,7 @@ function Otp() {
     }
   };
 
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-transparent ">
       <div>
@@ -114,7 +119,7 @@ function Otp() {
           <Button className={`bg-[#152032] hover:bg-[#182438] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
             {loading ? 'Submitting...' : 'Submit'}
           </Button>
-          <button type="button" onClick={handleStartAgain} disabled={loading}>
+          <button type="button" onClick={handleStartAgain}>
             <p className='underline text-xs text-white/80'>Start Again?</p>
           </button>
         </div>
