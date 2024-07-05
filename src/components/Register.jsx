@@ -16,7 +16,7 @@ helix.register()
 
 
 function Register({authStateSignUp}) {
-  const cookies = new Cookies(null, { path: '/' ,sameSite:'none'});
+  const cookies = new Cookies();
 
     const navigate = useNavigate()
     const {register, handleSubmit, formState:{errors}} = useForm()
@@ -44,7 +44,7 @@ function Register({authStateSignUp}) {
         if(response.ok){
           const user = await response.json()
           console.log("topken recieived",user.data.token)
-          cookies.set('token',user.data.token,{path:'/', sameSite:"none"});
+          await cookies.set('token',user.data.token,{path:'/'});
           if(cookies.get("token")){
             console.log("cookie set")
             console.log(cookies.get('token'))
