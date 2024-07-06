@@ -88,6 +88,7 @@ helix.register()
 function AuthChecker({ children }) {
   const cookies = new Cookies();
   const location = useLocation();
+  const [authCheckComplete, setAuthCheckComplete] = useState(false);
   const [authState, setAuthState] = useState({
     isAuthenticated: false,
     isVerified: false,
@@ -152,27 +153,32 @@ function AuthChecker({ children }) {
         setAuthState({ isAuthenticated: false, isVerified: false });
         hideLoading();
       }
+      setAuthCheckComplete(true);
+
     };
 
     checkAuthState(); // Invoke the async function
   }, [location]); // Include location in the dependency array
  // Include location in the dependency array
 
-  return (
-    <>
-      {isLoading ? (
-        <div className='flex items-center justify-center min-h-screen'>
-          <l-helix size="100" speed="2.5" color="white"></l-helix>
-        </div>
-      ) : (
-        children(authState, authStateSignUp,logout)
-      )}
-    </>
-  );
-  // return (<>
-  // {children(authState, authStateSignUp,logout)}
-  // </>)
+  // return (
+  //   <>
+  //     {isLoading ? (
+  //       <div className='flex items-center justify-center min-h-screen'>
+  //         <l-helix size="100" speed="2.5" color="white"></l-helix>
+  //       </div>
+  //     ) : (
+  //       children(authState, authStateSignUp,logout)
+  //     )}
+  //   </>
+  // );
+  if (!authCheckComplete) {
+    return null
+  }
+
+  return children(authState, authStateSignUp, logout);
 }
+
 
 
 
