@@ -19,16 +19,16 @@ helix.register()
 
 function Register({authStateSignUp}) {
   const cookies = new Cookies();
-  const {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
+  // const {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
     const navigate = useNavigate()
     const {register, handleSubmit, formState:{errors}} = useForm()
     const [error, setError] = useState(null)
-    // const [isLoading, setLoading] = useState(false)
+    const [isLoading, setLoading] = useState(false)
     const token = cookies.get('token')
     const handleRegistration =async (data)=>{
             
         console.log(data)
-        showLoading()
+        setLoading(true)
         const response = await fetch("https://snippetsync-backend.onrender.com/register",{
           method:'POST',
           mode:'cors',
@@ -51,7 +51,7 @@ function Register({authStateSignUp}) {
             console.log("cookie set")
             console.log(cookies.get('token'))
             authStateSignUp();
-            hideLoading()
+            setLoading(false)
             console.log("naviagting to otp")
             navigate('/verify-otp')
           }
@@ -158,8 +158,8 @@ function Register({authStateSignUp}) {
           </div>
 
           <div>
-            <button type="submit" className="w-full px-4 py-2 font-medium text-white bg-custom-purple rounded-md focus:outline-none focus:shadow-outline">
-              Sign Up
+            <button type="submit" disabled={isLoading}className={`w-full px-4 py-2 font-medium text-white bg-custom-purple rounded-md focus:outline-none focus:shadow-outline ${isLoading?"opacity-50 cursor-not-allowed":''}`}>
+              {isLoading? "Sending Otp" : "Sign Up"}
             </button>
             <p className='text-sm text-white/60 text-center mt-3'>Already on our platform? <a href="/login" className='text-custom-purple'>Login</a></p>
             

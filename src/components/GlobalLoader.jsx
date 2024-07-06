@@ -10,7 +10,7 @@ const GlobalLoader = () => {
 
   return (
     isLoading && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-100 z-50">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <l-helix size="100" speed="2.5" color="white"></l-helix>
       </div>
     )
