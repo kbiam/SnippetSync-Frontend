@@ -98,12 +98,8 @@ function AuthChecker({ children }) {
 
 
   const logout = () => {
-    showLoading();
     cookies.remove('token');
     logoutAuthState();
-    setTimeout(() => {
-      hideLoading();
-    }, 500);
   };
 
   useEffect(() => {
