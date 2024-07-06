@@ -83,7 +83,7 @@ function Register({authStateSignUp}) {
   color="white" 
 ></l-helix></div>:<>
         <div className='max-w-screen-sm text-lg'>
-            <h1 className='font-bold text-6xl text-white/90 mb-3'>Organize and Manage Your Code Snippets</h1>
+            <h1 className='font-bold text-6xl text-white/90 mb-6'>Organize and Manage Your Code Snippets</h1>
             <h3 className='text-white/60'>Keep your code organized and accessible with our powerful code snippet manager. Easily search, share, and collaborate on your code snippets.</h3>
         </div>
       <div className="w-full max-w-md px-10 py-14 space-y-8 bg-[#162235] rounded-xl shadow-custom-black translate-x-36">

@@ -87,7 +87,7 @@ function Login() {
         </div>
         
 
-        {error && <p className= " absolue text-red-500 text-center text-xs ">{error}</p>}
+        {error && <p className= " absolute text-red-500 text-center text-xs ">{error}</p>}
 
         <form onSubmit={handleSubmit(handlelogin)} className="space-y-5">
           <div>

@@ -20,11 +20,13 @@ function NewSnippet({onClose}) {
   );
     const [error, setError] = useState("")
     // const [code, setcode] = useState("")
+    const [loading, setLoading] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm()
     const navigate = useNavigate()
     const cookies = new Cookies()
     const token = cookies.get('token')
     const onSubmit = async (data) => {
+      setLoading(true)
       console.log(data, code);
       const response = await fetch("https://snippetsync-backend.onrender.com/addSnippet", {
         method: "POST",
@@ -45,6 +47,7 @@ function NewSnippet({onClose}) {
   
       if (response.ok) {
         console.log("Snippet added successfully");
+        setLoading(false)
         onClose(); // Call onClose after successful submission
         // Optionally, you can also reset the form or navigate to another page here
       } else {
@@ -153,8 +156,8 @@ function NewSnippet({onClose}) {
 
     </div>
     <div>
-    <button type="submit" className="w-full px-4 py-2 font-medium text-white/80  bg-[#243B55] hover:bg-[#1f344b] rounded-md focus:outline-none focus:shadow-outline">
-              Submit
+    <button type="submit" disabled={loading} className={`w-full px-4 py-2 font-medium text-white/80  bg-[#243B55] hover:bg-[#1f344b] rounded-md focus:outline-none focus:shadow-outline ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              {loading ? 'Adding...' : 'Add'}
             </button>
     </div>
     </form>
