@@ -10,20 +10,23 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from './ui/button';
 import { helix } from 'ldrs';
+import { useContext } from 'react';
+import LoadingContext from './context/LoadingContext';
 
 helix.register()
 
 function Otp() {
+  const {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
   const cookies = new Cookies();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false); // Added loading state
+  // const [loading, setLoading] = useState(false); // Added loading state
   const token = cookies.get('token')
 
   const handleOtp = async (data) => {
     try {
-      setLoading(true); // Set loading state on form submission
+      showLoading(); // Set loading state on form submission
       const response = await fetch('https://snippetsync-backend.onrender.com/verifyOtp', {
         method: "POST",
         mode: "cors",
@@ -58,13 +61,13 @@ function Otp() {
       console.error('Error occurred during OTP verification:', error);
       setError("Failed to verify OTP. Please try again.");
     } finally {
-      setLoading(false); // Reset loading state after request completes
+      hideLoading(); // Reset loading state after request completes
     }
   };
 
   const handleStartAgain = async () => {
     try {
-      setLoading(true); // Set loading state on button click
+      showLoading(); // Set loading state on button click
       const response = await fetch("https://snippetsync-backend.onrender.com/startAgain", {
         method: "POST",
         mode: "cors",
@@ -87,7 +90,7 @@ function Otp() {
       console.error('Error occurred during start again:', error);
       setError("Failed to start again. Please try again.");
     } finally {
-      setLoading(false); // Reset loading state after request completes
+      hideLoading(); // Reset loading state after request completes
     }
   };
 
@@ -116,8 +119,8 @@ function Otp() {
           <p>Please enter the one-time password sent to your email address</p>
         </div>
         <div className='absolute translate-y-16 flex w-96 justify-between align-middle'>
-          <Button className={`bg-[#152032] hover:bg-[#182438] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
-            {loading ? 'Submitting...' : 'Submit'}
+          <Button className={`bg-[#152032] hover:bg-[#182438] ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isLoading}>
+            {isLoading ? 'Submitting...' : 'Submit'}
           </Button>
           <button type="button" onClick={handleStartAgain}>
             <p className='underline text-xs text-white/80'>Start Again?</p>

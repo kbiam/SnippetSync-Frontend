@@ -8,6 +8,7 @@ function Sidebar({ logout, handleSnippetLanguageFetch, allSnippets, snippetAdded
   const [activeLanguage, setActiveLanguage] = useState('all');
   const cookies = new Cookies()
   const token = cookies.get('token')
+  
   useEffect(() => {
     const fetchLanguages = async () => {
       const response = await fetch('https://snippetsync-backend.onrender.com/userLanguages', {

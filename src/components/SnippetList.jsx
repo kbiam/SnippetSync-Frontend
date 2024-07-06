@@ -11,11 +11,14 @@ import ModalContext from './context/ModalContext';
 import { helix } from 'ldrs'
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'universal-cookie';
+import LoadingContext from './context/LoadingContext';
+import { useContext } from 'react';
 
 helix.register()
 function SnippetList({logout}) {
 
-  const [isLoading, setLoading] = useState(true);
+  // const [isLoading, setLoading] = useState(true);
+  const {showLoading, hideLoading} = useContext(LoadingContext)
   const cookies = new Cookies()
   const token = cookies.get('token')
   const [snippets, setsnippets] = useState([])
@@ -43,6 +46,7 @@ function SnippetList({logout}) {
 
   useEffect(() => {
     const fetchSnippets = async()=>{
+      showLoading()
       const response = await fetch('https://snippetsync-backend.onrender.com/snippets',{
         method:"POST",
         credentials:"include",
@@ -55,7 +59,7 @@ function SnippetList({logout}) {
       console.log(snippets)
       setsnippets(snippets)
       setSnippetCopy(snippets)
-      setLoading(false)
+      hideLoading()
     }
     if(!isModalVisible){
       fetchSnippets();
@@ -65,12 +69,12 @@ function SnippetList({logout}) {
 
   return (
     <>
-          {isLoading ? (
+          {/* {isLoading ? (
         <div className='flex items-center justify-center min-h-screen'>
           <l-helix size="100" speed="2.5" color="white"></l-helix>
         </div>
       ) : (
-        <>
+        <> */}
       <Header />
 
       <div className="flex">
@@ -98,8 +102,8 @@ function SnippetList({logout}) {
       <Modal isVisible={isModalVisible} onClose={setModalFalse} >
         <NewSnippet onClose={()=>{setModalFalse(); setSnippetAdded(true)}} />
       </Modal>
-      </>
-      )}
+      
+      
     </>
   );
 }

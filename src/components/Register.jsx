@@ -7,6 +7,8 @@ import Input from './Input'
 import { dotStream } from 'ldrs'
 import { helix } from 'ldrs'
 import Cookies from 'universal-cookie';
+import { useContext } from 'react'
+import LoadingContext from './context/LoadingContext'
 
 
 dotStream.register()
@@ -17,16 +19,16 @@ helix.register()
 
 function Register({authStateSignUp}) {
   const cookies = new Cookies();
-
+  const {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
     const navigate = useNavigate()
     const {register, handleSubmit, formState:{errors}} = useForm()
     const [error, setError] = useState(null)
-    const [isLoading, setLoading] = useState(false)
+    // const [isLoading, setLoading] = useState(false)
     const token = cookies.get('token')
     const handleRegistration =async (data)=>{
             
         console.log(data)
-        setLoading(true)
+        showLoading()
         const response = await fetch("https://snippetsync-backend.onrender.com/register",{
           method:'POST',
           mode:'cors',
@@ -49,7 +51,7 @@ function Register({authStateSignUp}) {
             console.log("cookie set")
             console.log(cookies.get('token'))
             authStateSignUp();
-            setLoading(false)
+            hideLoading()
             console.log("naviagting to otp")
             navigate('/verify-otp')
           }
@@ -77,11 +79,11 @@ function Register({authStateSignUp}) {
 
     return (
        <div className="flex items-center justify-center min-h-screen  ">
-        {isLoading?<div><l-helix
+        {/* {isLoading?<div><l-helix
   size="100"
   speed="2.5" 
   color="white" 
-></l-helix></div>:<>
+></l-helix></div>:<> */}
         <div className='max-w-screen-sm text-lg'>
             <h1 className='font-bold text-6xl text-white/90 mb-6'>Organize and Manage Your Code Snippets</h1>
             <h3 className='text-white/60'>Keep your code organized and accessible with our powerful code snippet manager. Easily search, share, and collaborate on your code snippets.</h3>
@@ -164,8 +166,8 @@ function Register({authStateSignUp}) {
           </div>
         </form>
       </div>
-      </> 
-}
+
+
     </div>
     
       )

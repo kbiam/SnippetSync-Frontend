@@ -11,6 +11,9 @@ import Otp from './components/Otp';
 import { helix } from 'ldrs'
 import SearchContextProvider from './components/context/SearchContextProvider';
 import ModalContextProvider from './components/context/ModalContextProvider';
+import { LoadingContextProvider } from './components/context/LoadingContextProvider';
+import { useContext } from 'react';
+import LoadingContext from './components/context/LoadingContext';
 
 helix.register()
 
@@ -89,7 +92,8 @@ function AuthChecker({ children }) {
     isAuthenticated: false,
     isVerified: false,
   });
-  const [isLoading, setLoading] = useState(true);
+  // const [isLoading, setLoading] = useState(true);
+  const {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
 
   const authStateSignUp = () => {
     setAuthState({
@@ -99,14 +103,14 @@ function AuthChecker({ children }) {
   };
 
   const logout = () => {
-    setLoading(true);
+    showLoading();
     cookies.remove('token');
     setAuthState({
       isAuthenticated: false,
       isVerified: false,
     });
     setTimeout(() => {
-      setLoading(false);
+      hideLoading();
     }, 500);
   };
 
@@ -115,7 +119,7 @@ function AuthChecker({ children }) {
       const token = cookies.get('token');
       console.log("token",token)
       if (token) {
-        setLoading(true);
+        showLoading();
         try {
           console.log("sending req")
           const response = await fetch('https://snippetsync-backend.onrender.com/checkState', {
@@ -143,10 +147,10 @@ function AuthChecker({ children }) {
           console.error('Token verification failed', err);
           setAuthState({ isAuthenticated: false, isVerified: false });
         }
-        setLoading(false);
+        hideLoading();
       } else {
         setAuthState({ isAuthenticated: false, isVerified: false });
-        setLoading(false);
+        hideLoading();
       }
     };
 
@@ -154,18 +158,22 @@ function AuthChecker({ children }) {
   }, [location]); // Include location in the dependency array
  // Include location in the dependency array
 
-  return (
-    <>
-      {isLoading ? (
-        <div className='flex items-center justify-center min-h-screen'>
-          <l-helix size="100" speed="2.5" color="white"></l-helix>
-        </div>
-      ) : (
-        children(authState, authStateSignUp,logout)
-      )}
-    </>
-  );
+  // return (
+  //   <>
+  //     {isLoading ? (
+  //       <div className='flex items-center justify-center min-h-screen'>
+  //         <l-helix size="100" speed="2.5" color="white"></l-helix>
+  //       </div>
+  //     ) : (
+  //       children(authState, authStateSignUp,logout)
+  //     )}
+  //   </>
+  // );
+  return (<>
+  {children(authState, authStateSignUp,logout)}
+  </>)
 }
+
 
 
 function App() {
@@ -207,6 +215,7 @@ function App() {
     <div className="App">
     <SearchContextProvider>
       <ModalContextProvider>
+        <LoadingContextProvider>
         <main>
           <AuthChecker>
             {(authState, authStateSignUp, logout) => (
@@ -227,6 +236,7 @@ function App() {
             )}
           </AuthChecker>
         </main>
+        </LoadingContextProvider>
       </ModalContextProvider>
     </SearchContextProvider>
   </div>
