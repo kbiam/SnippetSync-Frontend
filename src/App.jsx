@@ -14,6 +14,8 @@ import ModalContextProvider from './components/context/ModalContextProvider';
 import { LoadingContextProvider } from './components/context/LoadingContextProvider';
 import { useContext } from 'react';
 import LoadingContext from './components/context/LoadingContext';
+import AuthContext from './components/context/AuthContext';
+import { AuthContextProvider } from './components/context/AuthContextProvider';
 
 helix.register()
 
@@ -89,27 +91,16 @@ function AuthChecker({ children }) {
   const cookies = new Cookies();
   const location = useLocation();
   const [authCheckComplete, setAuthCheckComplete] = useState(false);
-  const [authState, setAuthState] = useState({
-    isAuthenticated: false,
-    isVerified: false,
-  });
+
   // const [isLoading, setLoading] = useState(true);
   const {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
+  const {authState, authStateSignUp, logoutAuthState, verifyAuthState, loginAuthState} = useContext(AuthContext)
 
-  const authStateSignUp = () => {
-    setAuthState({
-      isAuthenticated: true,
-      isVerified: false
-    });
-  };
 
   const logout = () => {
     showLoading();
     cookies.remove('token');
-    setAuthState({
-      isAuthenticated: false,
-      isVerified: false,
-    });
+    logoutAuthState();
     setTimeout(() => {
       hideLoading();
     }, 500);
@@ -137,20 +128,21 @@ function AuthChecker({ children }) {
           }
           if (response.ok) {
             const data = await response.json();
-            setAuthState({
-              isAuthenticated: true,
-              isVerified: data.isVerified,
-            });
+            verifyAuthState(data.isVerified)
+            // setAuthState({
+            //   isAuthenticated: true,
+            //   isVerified: data.isVerified,
+            // });
           } else {
-            setAuthState({ isAuthenticated: false, isVerified: false });
+            logoutAuthState()
           }
         } catch (err) {
           console.error('Token verification failed', err);
-          setAuthState({ isAuthenticated: false, isVerified: false });
+          logoutAuthState()
         }
         hideLoading();
       } else {
-        setAuthState({ isAuthenticated: false, isVerified: false });
+        logoutAuthState()
         hideLoading();
       }
       setAuthCheckComplete(true);
@@ -158,7 +150,7 @@ function AuthChecker({ children }) {
     };
 
     checkAuthState(); // Invoke the async function
-  }, [location]); // Include location in the dependency array
+  }, []); // Include location in the dependency array
  // Include location in the dependency array
 
   // return (
@@ -176,59 +168,26 @@ function AuthChecker({ children }) {
     return null
   }
 
-  return children(authState, authStateSignUp, logout);
+  return children(authState, logout);
 }
 
 
 
 
 function App() {
-  const list =[
-    {
-      id: 1,
-      title: 'Fetch API Example',
-      description: 'A simple example of using the Fetch API to make a GET request.',
-      code: `fetch('https://api.example.com/data')\n.then(response => response.json())\n.then(data => {\n console.log(data);\n})\n.catch(error => {\n console.error('Error:', error);\n});`,
-      language: 'JavaScript'
-    },
-    {
-      id: 2,
-      title: 'React useState Hook',
-      description: 'An example of using the useState hook to manage state in a React component.',
-      code: `import { useState } from 'react';\n\nfunction Counter() {\n const [count, setCount] = useState(0);\n\n return (\n <div>\n <p>You clicked {count} times</p>\n <button onClick={() => setCount(count + 1)}>\n Click me\n </button>\n </div>\n );\n}`,
-      language: 'React'
-    },
-    {
-      id: 3,
-      title: 'Tailwind CSS Grid',
-      description: 'An example of using Tailwind CSS to create a responsive grid layout.',
-      code: `<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">\n <div>Item 1</div>\n <div>Item 2</div>\n <div>Item 3</div>\n <div>Item 4</div>\n <div>Item 5</div>\n <div>Item 6</div>\n</div>`,
-      language: 'CSS'
-    },
-    {
-      id: 4,
-      title: 'Python Flask API',
-      description: 'A basic example of creating a RESTful API using Flask in Python.',
-      code: `from flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/api/data', methods=['GET'])\ndef get_data():\n data = {\n 'message': 'Hello, World!',\n 'status': 200\n }\n return jsonify(data)\n\nif __name__ == '__main__':\n app.run(debug=True)`,
-      language: 'Python'
-    }
-  ]
-
-
-  
-  
   return (
     <div className="App">
+      <AuthContextProvider>
     <SearchContextProvider>
       <ModalContextProvider>
         <LoadingContextProvider>
         <main>
           <AuthChecker>
-            {(authState, authStateSignUp, logout) => (
+            {(authState, logout) => (
               <Routes>
                 <Route path='/login' element={!authState.isAuthenticated ? <Login /> : <Navigate to={authState.isVerified ? '/snippets' : '/verify-otp'} replace />} />
                 <Route path='/snippets' element={authState.isVerified ? <SnippetList logout ={logout} /> : <Navigate to="/login" replace />} />
-                <Route path='/signup' element={!authState.isAuthenticated ? <Register authStateSignUp = {authStateSignUp}/> : <Navigate to={authState.isVerified ? "/snippets" : "/verify-otp"} replace />} />
+                <Route path='/signup' element={!authState.isAuthenticated ? <Register/> : <Navigate to={authState.isVerified ? "/snippets" : "/verify-otp"} replace />} />
                 <Route 
                   path='/verify-otp' 
                   element={authState.isAuthenticated 
@@ -245,6 +204,7 @@ function App() {
         </LoadingContextProvider>
       </ModalContextProvider>
     </SearchContextProvider>
+    </AuthContextProvider>
   </div>
   );
 }

@@ -8,6 +8,7 @@ import Cookies from 'universal-cookie'
 import { helix } from 'ldrs'
 import { useContext } from 'react'
 import LoadingContext from './context/LoadingContext'
+import AuthContext from './context/AuthContext'
 
 
 helix.register()
@@ -20,6 +21,7 @@ function Login() {
     // const [isLoading, setLoading] = useState(false)
     const token = cookies.get('token')
     const  {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
+    const {authState, authStateSignUp, logoutAuthState, verifyAuthState, loginAuthState} = useContext(AuthContext)
 
     const handlelogin =async (data)=>{
       console.log("clicked")
@@ -43,11 +45,12 @@ function Login() {
           showLoading()
            if(result.message === "Email sent"){
           cookies.set('unverifiedToken', result.token, { path: '/' });
+          authStateSignUp()
           hideLoading()
           navigate('/verify-otp')
         }
         }
-        result.error?setError(result.error):(cookies.set('token', result.token),hideLoading(), navigate('/snippets'))
+        result.error?setError(result.error):(cookies.set('token', result.token),loginAuthState(),hideLoading(), navigate('/snippets'))
 
       }
         else{

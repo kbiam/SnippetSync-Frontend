@@ -45,7 +45,7 @@ function SnippetList({logout}) {
 
 
   useEffect(() => {
-    showLoading()
+    // showLoading()
     const fetchSnippets = async()=>{
       const response = await fetch('https://snippetsync-backend.onrender.com/snippets',{
         method:"POST",
@@ -59,7 +59,7 @@ function SnippetList({logout}) {
       console.log(snippets)
       setsnippets(snippets)
       setSnippetCopy(snippets)
-      hideLoading()
+      // hideLoading()
     }
     if(!isModalVisible){
       fetchSnippets();

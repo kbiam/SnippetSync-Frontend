@@ -9,6 +9,7 @@ import { helix } from 'ldrs'
 import Cookies from 'universal-cookie';
 import { useContext } from 'react'
 import LoadingContext from './context/LoadingContext'
+import AuthContext from './context/AuthContext'
 
 
 dotStream.register()
@@ -17,7 +18,7 @@ helix.register()
 
 
 
-function Register({authStateSignUp}) {
+function Register() {
   const cookies = new Cookies();
   // const {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
     const navigate = useNavigate()
@@ -25,6 +26,8 @@ function Register({authStateSignUp}) {
     const [error, setError] = useState(null)
     const [isLoading, setLoading] = useState(false)
     const token = cookies.get('token')
+    const {authState, authStateSignUp, logoutAuthState, verifyAuthState, loginAuthState} = useContext(AuthContext)
+
     const handleRegistration =async (data)=>{
             
         console.log(data)

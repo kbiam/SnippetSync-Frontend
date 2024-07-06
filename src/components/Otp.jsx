@@ -12,6 +12,7 @@ import { Button } from './ui/button';
 import { helix } from 'ldrs';
 import { useContext } from 'react';
 import LoadingContext from './context/LoadingContext';
+import AuthContext from './context/AuthContext';
 
 helix.register()
 
@@ -23,6 +24,7 @@ function Otp() {
   const [error, setError] = useState(null);
   // const [loading, setLoading] = useState(false); // Added loading state
   const token = cookies.get('token')
+  const {authState, authStateSignUp, logoutAuthState, verifyAuthState, loginAuthState} = useContext(AuthContext)
 
   const handleOtp = async (data) => {
     try {
@@ -46,6 +48,7 @@ function Otp() {
           cookies.remove('token');
           await cookies.set('token', verifiedToken.token, { path: '/'});
           if(cookies.get('token')){
+            loginAuthState()
             navigate('/snippets');
           }
           else{
@@ -80,6 +83,7 @@ function Otp() {
 
       if (response.ok) {
         cookies.remove("token");
+        logoutAuthState();
         console.log("Cookie removed, navigating to /signup");
         navigate('/signup');
       } else {
