@@ -45,8 +45,8 @@ function SnippetList({logout}) {
 
 
   useEffect(() => {
+    showLoading()
     const fetchSnippets = async()=>{
-      showLoading()
       const response = await fetch('https://snippetsync-backend.onrender.com/snippets',{
         method:"POST",
         credentials:"include",
