@@ -12,7 +12,7 @@ import { helix } from 'ldrs'
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'universal-cookie';
 import LoadingContext from './context/LoadingContext';
-import { useContext } from 'react';
+// import { useContext } from 'react';
 
 helix.register()
 function SnippetList({logout}) {
