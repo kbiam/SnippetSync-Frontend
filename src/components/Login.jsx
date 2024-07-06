@@ -20,7 +20,7 @@ function Login() {
 
     const handlelogin =async (data)=>{
       console.log("clicked")
-      // setLoading(true)
+      setLoading(true)
         const response = await fetch('https://snippetsync-backend.onrender.com/login',{
           method:'POST',
           mode:'cors',
@@ -44,7 +44,7 @@ function Login() {
           navigate('/verify-otp')
         }
         }
-        result.error?setError(result.error):(cookies.set('token', result.token), navigate('/snippets'))
+        result.error?setError(result.error):(cookies.set('token', result.token),setLoading(false), navigate('/snippets'))
 
       }
         else{
@@ -64,13 +64,13 @@ function Login() {
     return (
        <div className="flex items-center justify-center min-h-screen   ">
 
-        {isLoading?<div>
+        {/* {isLoading?<div>
           <l-helix
   size="100"
   speed="2.5" 
   color="white" 
 ></l-helix>
-        </div> : <>
+        </div> : <> */}
 
         <div className='max-w-screen-sm text-lg'>
             <h1 className='font-bold text-6xl text-white/90 mb-6'>Organize and Manage Your Code Snippets</h1>
@@ -129,16 +129,17 @@ function Login() {
           </div>
 
           <div>
-            <button type="submit" className="w-full px-4 py-2 font-medium text-white bg-custom-purple rounded-md focus:outline-none focus:shadow-outline">
-              Sign In
+            <button type="submit" disabled={isLoading} className={`w-full px-4 py-2 font-medium text-white bg-custom-purple rounded-md focus:outline-none focus:shadow-outline ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              {isLoading?"LoggingIn...":"Login"}
+
             </button>
             <p className='text-sm text-white/60 text-center mt-3'>New on our platform? <a href="/signup" className='text-custom-purple'>Create an account</a></p>
             
           </div>
         </form>
       </div>
-      </>
-        }
+      {/* </> */}
+        
     </div>
     
       )
