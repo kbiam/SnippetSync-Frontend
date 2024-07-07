@@ -12,7 +12,7 @@ function SnippetShare() {
     const [language, setLanguage] = useState("")
     useEffect(() => {
         const snippetDets = async ()=>{
-            const res = await fetch(`https://snippetsync-backend.onrender.com/snippetDets`,{
+            const res = await fetch('https://snippetsync-backend.onrender.com/snippetDets',{
                 method:"POST",
                 mode:"cors",
                 headers:{"Content-Type":"application/json"},
@@ -24,7 +24,8 @@ function SnippetShare() {
             setCode(dets.code)
             setLanguage(dets.language)
         } 
-    }, [third])
+        snippetDets()
+    }, [])
     
   return (
     <div className='flex justify-center items-center h-screen'>
