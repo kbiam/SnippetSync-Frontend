@@ -52,8 +52,8 @@ function SnippetCard({ snippet, onDelete }) {
 
   const shareSnippet = ()=>{
     showLoading()
-    const url = `https://snippetsync-backend.onrender.com/snippet/${snippet._id}`
-    window.open(url,'_blank','noopener,noreferrer');
+    navigate(`/snippet/${snippet._id}`)
+
     
   }
   const handleSavebutton = async ()=>{
