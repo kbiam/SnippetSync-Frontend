@@ -10,6 +10,7 @@ import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism-tomorrow.min.css';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'universal-cookie';
+import { useNavigate } from 'react-router-dom';
 
 
 function SnippetCard({ snippet, onDelete }) {
@@ -18,6 +19,7 @@ function SnippetCard({ snippet, onDelete }) {
   const [isEditable, setIsEditable] = useState(false)
   const [initialCode, setInitialCode] = useState(snippet.snippet);
   const cookies = new Cookies()
+  const navigate = useNavigate()
   const token = cookies.get('token')
   
   const deleteSnippet = async ()=>{
@@ -43,6 +45,12 @@ function SnippetCard({ snippet, onDelete }) {
     setIsEditable(true)
   }
 
+  const shareSnippet = ()=>{
+    const url = `https://snippetsync.onrender.com/snippet/${snippet._id}`
+    navigator.clipboard.writeText(url)
+    navigate(url)
+    
+  }
   const handleSavebutton = async ()=>{
     if(code !== initialCode){
     const response = await fetch("https://snippetsync-backend.onrender.com/updateSnippet",{
@@ -78,6 +86,7 @@ function SnippetCard({ snippet, onDelete }) {
         <div className='flex px-3 text-white text-xs justify-between items-center w-full bg-gray-800 h-7'>
         <span className="text-xs font-medium text-white-400 shadow-sm h-4.5 px-2 inline-flex items-center  rounded-md">{flourite(snippet.snippet).language}</span> 
         <div className='flex gap-2'>
+          <button onClick={shareSnippet}><span className='text-base'><ion-icon name="share-social-outline"></ion-icon></span></button>
         {isEditable?(<button onClick={handleSavebutton}><span className='text-base'><ion-icon name="save-outline"></ion-icon></span></button>):(<button onClick={handleEditbutton}><span className='text-base'><ion-icon name="create-outline"></ion-icon></span></button>)}
           {
           !copy?
@@ -106,9 +115,7 @@ function SnippetCard({ snippet, onDelete }) {
         color:"white"
       }}
     />
-        {/* <SyntaxHighlighter style={atomOneDark} className="whitespace-pre-wrap" wrapLongLines={true} customStyle={{padding:25}} >
-          {snippet.snippet}
-        </SyntaxHighlighter> */}
+
       </div>
       <div className="flex justify-between items-center">
 

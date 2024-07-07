@@ -16,6 +16,7 @@ import { useContext } from 'react';
 import LoadingContext from './components/context/LoadingContext';
 import AuthContext from './components/context/AuthContext';
 import { AuthContextProvider } from './components/context/AuthContextProvider';
+import SnippetShare from './components/SnippetShare';
 
 helix.register()
 
@@ -194,6 +195,7 @@ function App() {
                       : <Navigate to='/snippets' replace />) 
                     : <Navigate to="/signup" replace />} 
                 />
+                <Route path='/snippet/:snippetId' element={<SnippetShare/>}/>
                 <Route path="*" element={<Navigate to={authState.isVerified ? "/snippets" : "/login"} />} />
               </Routes>
             )}
