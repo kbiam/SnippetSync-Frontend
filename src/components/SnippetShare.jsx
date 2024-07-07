@@ -17,6 +17,7 @@ function SnippetShare() {
   const [language, setLanguage] = useState('');
   const [title, setTitle] = useState('')
   const {showLoading, hideLoading} = useContext(LoadingContext)
+  
 
   useEffect(() => {
     const snippetDets = async () => {
