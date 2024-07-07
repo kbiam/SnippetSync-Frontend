@@ -17,6 +17,7 @@ import LoadingContext from './components/context/LoadingContext';
 import AuthContext from './components/context/AuthContext';
 import { AuthContextProvider } from './components/context/AuthContextProvider';
 import SnippetShare from './components/SnippetShare';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 helix.register()
 
@@ -176,6 +177,7 @@ function AuthChecker({ children }) {
 function App() {
   return (
     <div className="App">
+      <SkeletonTheme baseColor='#282C34' highlightColor='#525252'>
       <AuthContextProvider>
     <SearchContextProvider>
       <ModalContextProvider>
@@ -205,6 +207,7 @@ function App() {
       </ModalContextProvider>
     </SearchContextProvider>
     </AuthContextProvider>
+    </SkeletonTheme>
   </div>
   );
 }

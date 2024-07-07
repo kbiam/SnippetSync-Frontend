@@ -46,7 +46,10 @@ function Otp() {
         console.log('Verified token:', verifiedToken);
         if (verifiedToken && verifiedToken.token) {
           cookies.remove('token');
-          await cookies.set('token', verifiedToken.token, { path: '/'});
+          const currentDate = new Date();
+          const expiryDate = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+
+          await cookies.set('token', verifiedToken.token, { path: '/',expires:expiryDate});
           if(cookies.get('token')){
             loginAuthState()
             navigate('/snippets');

@@ -8,11 +8,14 @@ import 'prismjs/themes/prism-funky.min.css'; // Example style, you can use anoth
 import html2canvas from 'html2canvas';
 import { useContext } from 'react';
 import LoadingContext from './context/LoadingContext';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 function SnippetShare() {
   const { snippetId } = useParams();
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('');
+  const [title, setTitle] = useState('')
   const {showLoading, hideLoading} = useContext(LoadingContext)
 
   useEffect(() => {
@@ -28,6 +31,7 @@ function SnippetShare() {
       const dets = await res.json();
       console.log(dets);
       setCode(dets.snippet);
+      setTitle(dets.title)
       setLanguage(dets.language);
       hideLoading()
     };
@@ -39,6 +43,7 @@ function SnippetShare() {
   return (
     <div className='flex flex-col justify-center items-center h-screen bg-[#004BDA]'>
       <div  className='bg-[#273238] rounded-md p-1 '>
+        
         <div className='inline-flex px-5 pt-1 items-center bg-[#273238] w-full'>
           <span className='text-lg text-[#E94A41]'>
             <ion-icon name='ellipse'></ion-icon>{' '}
@@ -49,18 +54,21 @@ function SnippetShare() {
           <span className='text-lg text-[#28CC3E]'>
             <ion-icon name='ellipse'></ion-icon>{' '}
           </span>
+
         </div>
         <Editor
           textareaClassName='border-none outline-none'
           readOnly
           className='rounded-lg no-outline'
           value={code}
-          highlight={(code) => highlight(code, languages[language] || languages.js)}
+          highlight={(code) => highlight(code , languages[language] || languages.js)}
           padding={20}
           style={{
             borderRadius: '0px',
             border: 'none',
             outline: 'none',
+            minHeight:"100px",
+            minWidth:"300px",
             maxHeight: '650px',
             maxWidth: '1280px',
             overflow: 'auto',

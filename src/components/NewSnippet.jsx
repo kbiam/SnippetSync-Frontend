@@ -48,7 +48,8 @@ function NewSnippet({onClose}) {
       if (response.ok) {
         console.log("Snippet added successfully");
         setLoading(false)
-        onClose(); // Call onClose after successful submission
+        onClose();
+// Call onClose after successful submission
         // Optionally, you can also reset the form or navigate to another page here
       } else {
         console.error("Failed to add snippet");
@@ -161,7 +162,6 @@ function NewSnippet({onClose}) {
             </button>
     </div>
     </form>
-
     </div>
 
         

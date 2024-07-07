@@ -49,7 +49,9 @@ function Register() {
         if(response.ok){
           const user = await response.json()
           console.log("topken recieived",user.data.token)
-          await cookies.set('token',user.data.token,{path:'/'});
+          const currentDate = new Date();
+          const expiryDate = new Date(currentDate.getTime()+1*60*60*1000)
+          await cookies.set('token',user.data.token,{path:'/', expires:expiryDate});
           if(cookies.get("token")){
             console.log("cookie set")
             console.log(cookies.get('token'))

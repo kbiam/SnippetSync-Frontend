@@ -22,6 +22,7 @@ function Login() {
     const token = cookies.get('token')
     const  {isLoading, showLoading, hideLoading} = useContext(LoadingContext)
     const {authState, authStateSignUp, logoutAuthState, verifyAuthState, loginAuthState} = useContext(AuthContext)
+    const currentDate = new Date();
 
     const handlelogin =async (data)=>{
       console.log("clicked")
@@ -44,13 +45,15 @@ function Login() {
         if(result.message){
           showLoading()
            if(result.message === "Email sent"){
-          cookies.set('unverifiedToken', result.token, { path: '/' });
+            const expiryDate = new Date(currentDate.getTime()+1*60*60*1000);
+          cookies.set('unverifiedToken', result.token, { path: '/',expires:expiryDate });
           authStateSignUp()
           hideLoading()
           navigate('/verify-otp')
         }
         }
-        result.error?setError(result.error):(cookies.set('token', result.token),loginAuthState(),hideLoading(), navigate('/snippets'))
+        const expiryDate = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+        result.error?setError(result.error):(cookies.set('token', result.token,{expires:expiryDate}),loginAuthState(),hideLoading(), navigate('/snippets'))
 
       }
         else{

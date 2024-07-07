@@ -13,6 +13,8 @@ import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import LoadingContext from './context/LoadingContext';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 function SnippetCard({ snippet, onDelete }) {
@@ -80,13 +82,13 @@ function SnippetCard({ snippet, onDelete }) {
 
   return (
     <div className="bg-[#152133]  rounded-lg p-6 border border-gray-700 min-w-96  h-auto">
-      <div className='flex w-full justify-between items-center'><h2 className="text-base font-semibold mb-2 text-white">{snippet.title}</h2>
+      <div className='flex w-full justify-between items-center'><h2 className="text-base font-semibold mb-2 text-white">{snippet.title || <Skeleton/>}</h2>
       <button onClick= {deleteSnippet}className='text-lg text-red-800' ><ion-icon name="trash-outline"></ion-icon></button>
       </div>
-      <p className="text-[#A6AFBC] mb-4 text-sm">{snippet.description}</p>
+      <p className="text-[#A6AFBC] mb-4 text-sm">{snippet.description || <Skeleton/>}</p>
       <div className="bg-[#282C34] text-white   justify-center rounded-lg mb-4 font-thin text-sm overflow-auto max-h-96" >
         <div className='flex px-3 text-white text-xs justify-between items-center w-full bg-gray-800 h-7'>
-        <span className="text-xs font-medium text-white-400 shadow-sm h-4.5 px-2 inline-flex items-center  rounded-md">{flourite(snippet.snippet).language}</span> 
+        <span className="text-xs font-medium text-white-400 shadow-sm h-4.5 px-2 inline-flex items-center  rounded-md">{flourite(snippet.snippet).language || <Skeleton/>}</span> 
         <div className='flex gap-2'>
           <button onClick={shareSnippet}><span className='text-base'><ion-icon name="share-social-outline"></ion-icon></span></button>
         {isEditable?(<button onClick={handleSavebutton}><span className='text-base'><ion-icon name="save-outline"></ion-icon></span></button>):(<button onClick={handleEditbutton}><span className='text-base'><ion-icon name="create-outline"></ion-icon></span></button>)}
@@ -102,7 +104,7 @@ function SnippetCard({ snippet, onDelete }) {
         readOnly = {!isEditable}
     id='code-editor'
     className='rounded-lg border border-gray-200 '
-      value={code}
+      value={code || <Skeleton/>}
       onValueChange={newcode => setCode(newcode)}
       highlight={code => highlight(code, languages.js)}
       padding={12}

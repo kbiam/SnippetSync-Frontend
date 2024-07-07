@@ -13,7 +13,8 @@ import { faL } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'universal-cookie';
 import LoadingContext from './context/LoadingContext';
 // import { useContext } from 'react';
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 helix.register()
 function SnippetList({logout}) {
 
@@ -26,6 +27,8 @@ function SnippetList({logout}) {
   const [snippetAdded, setSnippetAdded] = useState(false);
   const {isModalVisible, setModalTrue, setModalFalse} = useContext(ModalContext);
   const {filterText} = useContext(SearchContext)
+  const [isLoading, setIsLoading] = useState(true);
+
   const filteredSnippets = snippets.filter(snippet =>
     snippet.title.toLowerCase().includes(filterText.toLowerCase())
   );
@@ -56,9 +59,9 @@ function SnippetList({logout}) {
         }
       });
       const snippets = await response.json()
-      console.log(snippets)
       setsnippets(snippets)
       setSnippetCopy(snippets)
+      setIsLoading(false)
       // hideLoading()
     }
     if(!isModalVisible){
@@ -77,32 +80,40 @@ function SnippetList({logout}) {
         <> */}
       <Header />
 
-      <div className="flex">
-        <Sidebar logout = {logout} handleSnippetLanguageFetch = {handleSnippetLanguageFetch} allSnippets = {allSnippets} snippetAdded = {snippetAdded} snippets = {snippets}/>
-        
-        <div className="flex flex-col min-h-screen  ml-72 pt-14" >
-        
-          <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-auto-rows gap-5">
-              {filteredSnippets.map(snippet => 
-                <SnippetCard key={snippet._id} snippet={snippet} onDelete={handleDeleteSnippet} />
-              )}
+<div className="flex">
+  <Sidebar logout={logout} handleSnippetLanguageFetch={handleSnippetLanguageFetch} allSnippets={allSnippets} snippetAdded={snippetAdded} snippets={snippets} />
+
+  <div className="flex flex-col min-h-screen ml-72 pt-14">
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-auto-rows gap-5">
+        {isLoading ? (
+          Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="bg-[#152133] rounded-lg p-6 border border-gray-700 min-w-96 h-auto">
+              <h2 className="text-base font-semibold mb-2 text-white"><Skeleton /></h2>
+              <p className="text-[#A6AFBC] mb-4 text-sm"><Skeleton count={1} /></p>
+              <div className="bg-[#282C34] text-white justify-center rounded-lg mb-4 font-thin text-sm overflow-auto max-h-96">
+                <Skeleton height={120} />
+              </div>
             </div>
-          </div>
-          {
-            filteredSnippets.length===0?(<p className="absolute inset-0 flex items-center justify-center text-white/80">
-              Hey, It's empty here, Add new Snippets.
-            </p>):(<></>)
-          }
-
-        </div>
-
+          ))
+        ) : (
+          filteredSnippets.map(snippet =>
+            <SnippetCard key={snippet._id} snippet={snippet} onDelete={handleDeleteSnippet} />
+          )
+        )}
       </div>
-      
-      <Modal isVisible={isModalVisible} onClose={setModalFalse} >
-        <NewSnippet onClose={()=>{setModalFalse(); setSnippetAdded(true)}} />
-      </Modal>
-      
+    </div>
+    {filteredSnippets.length === 0 && !isLoading && (
+      <p className="absolute inset-0 flex items-center justify-center text-white/80">
+        Hey, It's empty here, Add new Snippets.
+      </p>
+    )}
+  </div>
+</div>
+
+<Modal isVisible={isModalVisible} onClose={setModalFalse}>
+  <NewSnippet onClose={() => { setModalFalse(); setSnippetAdded(true) }} />
+</Modal>
       
     </>
   );
