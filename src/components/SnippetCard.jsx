@@ -11,6 +11,8 @@ import 'prismjs/themes/prism-tomorrow.min.css';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import LoadingContext from './context/LoadingContext';
 
 
 function SnippetCard({ snippet, onDelete }) {
@@ -18,6 +20,7 @@ function SnippetCard({ snippet, onDelete }) {
   const [code,setCode] = useState(snippet.snippet)
   const [isEditable, setIsEditable] = useState(false)
   const [initialCode, setInitialCode] = useState(snippet.snippet);
+  const {showLoading} = useContext(LoadingContext)
   const cookies = new Cookies()
   const navigate = useNavigate()
   const token = cookies.get('token')
@@ -46,7 +49,7 @@ function SnippetCard({ snippet, onDelete }) {
   }
 
   const shareSnippet = ()=>{
-    
+    showLoading()
     navigate(`/snippet/${snippet._id}`)
     
   }

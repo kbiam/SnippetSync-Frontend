@@ -17,8 +17,6 @@ function SnippetShare() {
 
   useEffect(() => {
     const snippetDets = async () => {
-      showLoading()
-      console.log('sending req');
       const res = await fetch('https://snippetsync-backend.onrender.com/snippetDets', {
         method: 'POST',
         mode: 'cors',
