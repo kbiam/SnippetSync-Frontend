@@ -95,3 +95,6 @@ body::-webkit-scrollbar {
   border-radius: 5px; /* Roundness of the track */
 }
 
+.no-outline:focus {
+  outline: none;
+}
