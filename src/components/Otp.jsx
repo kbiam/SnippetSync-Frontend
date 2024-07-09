@@ -47,7 +47,7 @@ function Otp() {
         if (verifiedToken && verifiedToken.token) {
           cookies.remove('token');
           const currentDate = new Date();
-          const expiryDate = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+          const expiryDate = new Date(currentDate.getTime() + 10 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
 
           await cookies.set('token', verifiedToken.token, { path: '/',expires:expiryDate});
           if(cookies.get('token')){
@@ -104,10 +104,13 @@ function Otp() {
   
   return (
     <div className="flex items-center justify-center min-h-screen bg-transparent ">
-      <div>
-        <p className='-translate-y-20 text-xl absolute font-medium text-white/90'>One Time Password</p>
+      <div className="max-w-min px-14 py-14 space-y-8 bg-[#162235] rounded-xl shadow-custom-black flex-col items-center justify-center ">
+
+      <div className=''>
+        <p className=' text-xl mb-10 font-medium text-white/90'>One Time Password</p>
       </div>
-      <form onSubmit={handleSubmit(handleOtp)}>
+      <form onSubmit={handleSubmit(handleOtp)} className=''>
+        <div className=''>
         <InputOTP maxLength={6} {...register("otp", { required: "Please enter 6-digit OTP" })}>
           <InputOTPGroup>
             <InputOTPSlot index={0} />
@@ -121,12 +124,13 @@ function Otp() {
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
+        </div>
         {errors.otp && <p className='text-red-600 absolute text-xs -translate-y-20 translate-x-32'>{errors.otp.message}</p>}
-        <div className='absolute translate-y-4 font-medium text-white/70'>
+        <div className=' mt-6 font-normal text-white/70 text-sm  '>
           <p>Please enter the one-time password sent to your email address</p>
         </div>
-        <div className='absolute translate-y-16 flex w-96 justify-between align-middle'>
-          <Button className={`bg-[#152032] hover:bg-[#182438] ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isLoading}>
+        <div className=' mt-10 flex w-96 justify-between align-middle'>
+          <Button className={`bg-[#1c2f43] hover:bg-[#1d2b43] ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isLoading}>
             {isLoading ? 'Submitting...' : 'Submit'}
           </Button>
           <button type="button" onClick={handleStartAgain}>
@@ -134,6 +138,7 @@ function Otp() {
           </button>
         </div>
       </form>
+      </div>
     </div>
   );
 }

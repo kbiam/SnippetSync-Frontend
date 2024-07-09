@@ -52,7 +52,7 @@ function Login() {
           navigate('/verify-otp')
         }
         }
-        const expiryDate = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
+        const expiryDate = new Date(currentDate.getTime() + 10 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
         result.error?setError(result.error):(cookies.set('token', result.token,{expires:expiryDate}),loginAuthState(),hideLoading(), navigate('/snippets'))
 
       }
@@ -117,7 +117,7 @@ function Login() {
           </div>
           
           <div>
-            <a href="" className='text-xs absolute translate-x-custom -translate-y-5 text-custom-purple'>Forgot Password?</a>
+            <a href="/forgotPassword" className='text-xs absolute translate-x-custom -translate-y-5 text-custom-purple'>Forgot Password?</a>
             <Input
             className='bg-[#20334B] border-none py-3'
               label="Password"

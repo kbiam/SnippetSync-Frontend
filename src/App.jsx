@@ -18,6 +18,7 @@ import AuthContext from './components/context/AuthContext';
 import { AuthContextProvider } from './components/context/AuthContextProvider';
 import SnippetShare from './components/SnippetShare';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import ForgotPassword from './components/ForgotPassword';
 
 helix.register()
 
@@ -191,13 +192,15 @@ function App() {
                 <Route path='/signup' element={!authState.isAuthenticated ? <Register/> : <Navigate to={authState.isVerified ? "/snippets" : "/verify-otp"} replace />} />
                 <Route 
                   path='/verify-otp' 
-                  element={authState.isAuthenticated 
-                    ? (!authState.isVerified 
-                      ? <Otp /> 
-                      : <Navigate to='/snippets' replace />) 
-                    : <Navigate to="/signup" replace />} 
+                  element={<Otp/>}
+                  // element={authState.isAuthenticated 
+                  //   ? (!authState.isVerified 
+                  //     ? <Otp /> 
+                  //     : <Navigate to='/snippets' replace />) 
+                  //   : <Navigate to="/signup" replace />} 
                 />
                 <Route path='/snippet/:snippetId' element={<SnippetShare/>}/>
+                <Route path='/forgotPassword' element ={<ForgotPassword/>}/>
                 <Route path="*" element={<Navigate to={authState.isVerified ? "/snippets" : "/login"} />} />
               </Routes>
             )}
