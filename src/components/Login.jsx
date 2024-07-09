@@ -53,7 +53,7 @@ function Login() {
         }
         }
         const expiryDate = new Date(currentDate.getTime() + 10 * 24 * 60 * 60 * 1000); // 5 days in milliseconds
-        result.error?setError(result.error):(cookies.set('token', result.token,{expires:expiryDate}),loginAuthState(),hideLoading(), navigate('/snippets'))
+        result.error?(hideLoading(),setError(result.error)):(cookies.set('token', result.token,{expires:expiryDate}),loginAuthState(),hideLoading(), navigate('/snippets'))
 
       }
         else{
@@ -139,7 +139,7 @@ function Login() {
 
           <div>
             <button type="submit" disabled={isLoading} className={`w-full px-4 py-2 font-medium text-white bg-custom-purple rounded-md focus:outline-none focus:shadow-outline ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-              {isLoading?"Signing...":"SignIn"}
+              {isLoading?"Signing...":"Sign In"}
 
             </button>
             <p className='text-sm text-white/60 text-center mt-3'>New on our platform? <a href="/signup" className='text-custom-purple'>Create an account</a></p>

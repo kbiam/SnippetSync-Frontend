@@ -192,12 +192,11 @@ function App() {
                 <Route path='/signup' element={!authState.isAuthenticated ? <Register/> : <Navigate to={authState.isVerified ? "/snippets" : "/verify-otp"} replace />} />
                 <Route 
                   path='/verify-otp' 
-                  element={<Otp/>}
-                  // element={authState.isAuthenticated 
-                  //   ? (!authState.isVerified 
-                  //     ? <Otp /> 
-                  //     : <Navigate to='/snippets' replace />) 
-                  //   : <Navigate to="/signup" replace />} 
+                  element={authState.isAuthenticated 
+                    ? (!authState.isVerified 
+                      ? <Otp /> 
+                      : <Navigate to='/snippets' replace />) 
+                    : <Navigate to="/signup" replace />} 
                 />
                 <Route path='/snippet/:snippetId' element={<SnippetShare/>}/>
                 <Route path='/forgotPassword' element ={<ForgotPassword/>}/>
