@@ -28,6 +28,7 @@ function SnippetCard({ snippet, onDelete }) {
   const token = cookies.get('token')
   
   const deleteSnippet = async ()=>{
+    onDelete(snippet._id)
     const response = await fetch("https://snippetsync-backend.onrender.com/deleteSnippet",{
       method:"POST",
       mode:"cors",
@@ -41,8 +42,8 @@ function SnippetCard({ snippet, onDelete }) {
         id:snippet._id
       })
     })
-    if(response.ok){
-      onDelete(snippet._id)
+    if(!response.ok){
+      throw new Error("Something went wrong")
     }
   }
 
