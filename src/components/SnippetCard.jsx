@@ -83,7 +83,7 @@ function SnippetCard({ snippet, onDelete }) {
   }
 
   return (
-    <div className="bg-[#152133]  rounded-lg p-6 border border-gray-700 min-w-96  h-auto">
+    <div className="bg-[#152133]  rounded-lg p-6 border border-gray-700 min-w-96  h-auto ">
       <div className='flex w-full justify-between items-center'><h2 className="text-base font-semibold mb-2 text-white">{snippet.title || <Skeleton/>}</h2>
       <button onClick= {deleteSnippet}className='text-lg text-red-800' ><ion-icon name="trash-outline"></ion-icon></button>
       </div>

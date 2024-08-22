@@ -60,10 +60,15 @@ function Login() {
           console.log("Login failed")
         }
          
-        console.log(data)
+        
 
     }
 
+    useEffect(() => {
+      console.log(errors)
+      errors?.email?(setError(errors.email.message)):(null)
+      errors?.password?(setError(errors.password.message)):(null)
+    }, [handlelogin])
     
 
  
@@ -96,7 +101,7 @@ function Login() {
         </div>
         
 
-        {error && <p className= " absolute text-red-500 text-center text-xs ">{error}</p>}
+        {error && <p className= " absolute text-red-500 text-center text-xs translate-x-28 -translate-y-6 ">{error}</p>}
 
         <form onSubmit={handleSubmit(handlelogin)} className="space-y-5">
           <div>
@@ -124,15 +129,7 @@ function Login() {
               placeholder="********"
               type="password"
               {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 4,
-                  message: "Password must be at least 4 characters long"
-                },
-                maxLength: {
-                  value: 16,
-                  message: "Password cannot exceed 8 characters"
-                }
+                required: "Password is required"
               })}
             />
           </div>

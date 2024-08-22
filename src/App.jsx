@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import './App.css';
 import Header from './components/Header/Header';
@@ -91,6 +91,7 @@ helix.register()
 //   );
 // }
 function AuthChecker({ children }) {
+  const navigate = useNavigate();
   const cookies = new Cookies();
   const location = useLocation();
   const [authCheckComplete, setAuthCheckComplete] = useState(false);
@@ -101,10 +102,11 @@ function AuthChecker({ children }) {
 
 
   const logout = () => {
-    showLoading()
+    // showLoading()
+    navigate('/login')
     cookies.remove('token');
     logoutAuthState();
-    hideLoading();
+    // hideLoading();
   };
 
   useEffect(() => {

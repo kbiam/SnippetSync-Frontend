@@ -69,9 +69,9 @@ function Register() {
 
     }
     useEffect(() => {
-        errors?.username?setError(errors.username.message):(null)
+        // errors?.username?setError(errors.username.message):(null)
         errors?.password?setError(errors.password.message):(null)
-        errors?.email?setError(errors.email.message):(null)
+        // errors?.email?setError(errors.email.message):(null)
 
 
 
@@ -104,13 +104,14 @@ function Register() {
         </div>
         
 
-        {error && <p className="text-red-500 text-center text-xs ">{error}</p>}
+        {error && <p className=" absolute text-red-500 text-center text-xs translate-x-10 -translate-y-6 ">{error}</p>}
 
         <form onSubmit={handleSubmit(handleRegistration)} className="space-y-5">
           <div>
             <Input
+            required
             className='bg-[#20334B] border-none py-3'
-
+            
             label="Username"
             placeholder="Username"
             type="text"
@@ -123,6 +124,7 @@ function Register() {
             </div>
             <div>
             <Input
+            required
             className='bg-[#20334B] border-none py-3'
               label="Email"
               placeholder="abc@xyz.com"
@@ -140,12 +142,13 @@ function Register() {
           <div>
             {/* <a href="" className='text-xs absolute translate-x-64 -translate-y-5 text-custom-purple'>Forgot Password?</a> */}
             <Input
+            required
             className='bg-[#20334B] border-none py-3'
               label="Password"
               placeholder="********"
               type="password"
               {...register("password", {
-                required: "Password is required",
+                required: "",
                 minLength: {
                   value: 4,
                   message: "Password must be at least 4 characters long"
